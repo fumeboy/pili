@@ -5,7 +5,7 @@ import "fmt"
 type fnr = func(in *router) *router
 type matcher struct {
 	name string
-	fn func(i []byte) (o string,ok bool)
+	fn func(i []byte, offset int) (o string,ok bool)
 }
 
 type router struct {

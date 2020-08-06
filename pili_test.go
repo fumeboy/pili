@@ -9,7 +9,7 @@ func Test1(t *testing.T) {
 		function_name = SERIAL(
 			NOTBLANK(),
 			TOKEN("function_name",nil),
-			OPTION(SERIAL(DELIMITER(" "))),
+			OPTION(SERIAL(BLANK())),
 		)
 		param = PARALLEL(
 			SERIAL(
@@ -20,12 +20,13 @@ func Test1(t *testing.T) {
 			SERIAL(
 				NOTBLANK(),
 				TOKEN("param", nil),
-				OPTION(SERIAL(DELIMITER(" "))),
+				OPTION(SERIAL(BLANK())),
 			),
 		)
 
 		sentence = SERIAL(
 			DELIMITER("let"),
+			BLANK(),
 			function_name,
 			OPTION(
 				SERIAL(
@@ -44,14 +45,12 @@ func Test1(t *testing.T) {
 
 		text2 = ("let apple(a,b,c,'abc','a b c')")
 		ctx2 = NEWstate(nil,text2)
-		//
-		//text3 = ("let apple (a,b ,c,'abc','a b c')")
-		//ctx3 = NEWcontext(nil,text3)
-		//
-		//text4 = ("let apple banana(a,b ,c,'abc','a b c')")
-		//ctx4 = NEWcontext(nil,text4)
+
+		text3 = ("letapple (a,b ,c,'abc' ,'a b c')")
+		ctx3 = NEWstate(nil,text3)
 	)
-	RUN(ctx,sentence)
-	RUN(ctx2,sentence)
+	ctx.RUN(sentence)
+	ctx2.RUN(sentence)
+	ctx3.RUN(sentence)
 }
 

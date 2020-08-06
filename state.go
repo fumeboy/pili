@@ -5,6 +5,9 @@ import "fmt"
 type state struct {
 	input []byte
 	offset int
+	len_in int
+
+	history []*matcher
 	ctx Context
 
 	matched map[string][]string
@@ -28,16 +31,18 @@ func (this *state) get(id string)[]string {
 	return r
 }
 func (this *state) Display() {
-	fmt.Println("text:",`"`+string(this.input)+`"`)
+	fmt.Println("input:",`"`+string(this.input)+`"`)
 	for k,v := range this.matched{
 		fmt.Println("  token <"+k+">","=>")
 		for _,vv := range v{
-			fmt.Println("  - ", string(vv))
+			fmt.Println("  -", `'`+string(vv)+`'`)
 		}
 	}
-	fmt.Println("====")
+	fmt.Println("=== OVER")
 }
 
 func NEWstate(ctx Context, text string) *state {
-	return &state{input: []byte(text), ctx: ctx, matched: map[string][]string{}}
+	s := &state{input: []byte(text), ctx: ctx, matched: map[string][]string{}}
+	s.len_in = len(s.input)
+	return s
 }

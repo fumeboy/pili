@@ -15,9 +15,7 @@ func OPTION(paths ...fnr) fnr {
 		for _,v:=range paths{
 			inputs = append(inputs, v(in))
 		}
-		if in != nil {
-			inputs = append(inputs, in)
-		}
+		inputs = append(inputs, in)
 		return &router{next: inputs, matcher: nil, optional: true}
 	}
 }

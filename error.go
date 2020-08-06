@@ -9,12 +9,17 @@ type ierr interface {
 type find_sep_err struct {
 	text []byte
 	i int // 文本进行位置
+	history []*matcher
 	matchers []*matcher
 	token *token
 }
 
 func (f find_sep_err) display() {
 	fmt.Println("index:", f.i, `"`+string(f.text[f.i]) + `"`)
+	fmt.Println("history:")
+	for _,v := range f.history {
+		fmt.Println("  ", `"`+string(v.name)+`"`)
+	}
 	fmt.Println("matchers:")
 	for _,v := range f.matchers {
 		fmt.Println("  ", `"`+string(v.name)+`"`)
@@ -22,6 +27,7 @@ func (f find_sep_err) display() {
 	if f.token != nil{
 		fmt.Println("token:", f.token.identifier)
 	}
+	fmt.Println("=== OVER")
 }
 
 type token_check_error struct {
@@ -34,6 +40,7 @@ func (this *token_check_error) display() {
 	fmt.Println("index:",this.i)
 	fmt.Println("text:", this.text)
 	fmt.Println("token:", this.token.identifier)
+	fmt.Println("=== OVER")
 }
 
 
